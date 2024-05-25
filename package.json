@@ -1,0 +1,7 @@
+{
+  "dependencies": {
+    "discord.js": "^14.15.2",
+    "kick.com-api": "^0.1.65"
+  },
+  "type": "module"
+}
