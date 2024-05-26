@@ -3,15 +3,17 @@ import { KickApiWrapper } from 'kick.com-api';
 const kickApi = new KickApiWrapper();
 import config from './config.json' assert { type: 'json' };
 var cooldown = false;
+let webhookUrl = config.webhook_url; 
+let username = config.kick_username;
+
 
 setInterval(() => {
-    kickApi.fetchChannelData(config.kick_username)
+    kickApi.fetchChannelData(username)
         .then(data => {
     if (data.livestream != null) {
         let baslik = data.livestream.session_title;
         let profilePicture = data.user.profile_pic;
         let kickUsername = data.user.username;
-        let webhookUrl = config.webhook_url; 
         if (!cooldown){
             notifySender(kickUsername, profilePicture, baslik, webhookUrl);
             cooldown = true;
@@ -20,7 +22,7 @@ setInterval(() => {
         cooldown = false;
   })
   .catch(error => console.error(error));
-}, 60000);
+}, 15000);
 
 
 async function notifySender(kickName, avatar, title, webhookurl) {
